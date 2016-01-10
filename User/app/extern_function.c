@@ -481,7 +481,45 @@ void dome_func_control(uchar action,uchar prePoint)
 		cam_zoom_data_set((prePoint-40)*100);
 
 		break;
-	case 50://¹Ø±Õ¼¤¹âÆ÷
+
+
+	case 50://¹Ø±Õ¼¤¹âÆ
+		iris_ctl_mode = IRIS_JIGUANG_ZOOM;
+		jiguang_on_off_set(OFF_MODE);
+		/*if(action == 0x11)
+		{
+            cam_cross_line_mode_set(ON_MODE);
+        }
+        else
+            cam_cross_line_mode_set(OFF_MODE);
+
+		*/
+		break;
+	case 51://
+		iris_ctl_mode = IRIS_JIGUANG_ZOOM;
+		jiguang_on_off_set(ON_MODE);
+		/*if(action == 0x11)
+		{
+            cam_nega_posi_mode_set(ON_MODE);
+        }
+        else
+            cam_nega_posi_mode_set(OFF_MODE);
+
+			*/
+			break;	
+	case 52://
+		  iris_ctl_mode = IRIS_JIGUANG_CURRENT;
+    	/*if(action == 0x11)
+		{
+            cam_picture_reverse_set(PIC_MIRROR);
+         }
+        else
+        {
+            cam_picture_reverse_set(PIC_NORMAL);
+        }*/
+
+		break;	
+	case 60://¹Ø±Õ¼¤¹âÆ÷
 		if(action == 0x11)
 		{
             cam_cross_line_mode_set(ON_MODE);
@@ -490,7 +528,7 @@ void dome_func_control(uchar action,uchar prePoint)
             cam_cross_line_mode_set(OFF_MODE);
 
 		break;
-	case 51://
+	case 61://
 		if(action == 0x11)
 		{
             cam_nega_posi_mode_set(ON_MODE);
@@ -499,7 +537,7 @@ void dome_func_control(uchar action,uchar prePoint)
             cam_nega_posi_mode_set(OFF_MODE);
 
 			break;	
-	case 52://
+	case 62://
     	if(action == 0x11)
 		{
             cam_picture_reverse_set(PIC_MIRROR);
@@ -509,7 +547,7 @@ void dome_func_control(uchar action,uchar prePoint)
             cam_picture_reverse_set(PIC_NORMAL);
         }
 		break;
-	case 53:
+	case 63:
 		if(action == 0x11)
 		{
 		cam_picture_reverse_set(PIC_VFLIP);
@@ -517,7 +555,7 @@ void dome_func_control(uchar action,uchar prePoint)
 		else
 			cam_picture_reverse_set(PIC_NORMAL);
 		break;
-	case 54:
+	case 64:
 		if(action == 0x11)
 		{
 		cam_freeze_set(ON_MODE);
@@ -529,7 +567,7 @@ void dome_func_control(uchar action,uchar prePoint)
 
         break;
         
-    case 55:
+    case 65:
 		if(action == 0x11)
 		{
 		cam_color_bar_mode_set(ON_MODE);
@@ -538,17 +576,6 @@ void dome_func_control(uchar action,uchar prePoint)
 			cam_color_bar_mode_set(OFF_MODE);
 		break;
         
-    case 60:
-        if(action == 0x11)
-		{
-		cam_freeze_set(ON_MODE);
-		}
-		else
-			{
-			cam_freeze_set(OFF_MODE);
-		}
-
-        break;
 	case 80:
 	case 81:
 	case 82:
