@@ -1080,7 +1080,7 @@ void cam_init(void)
     cam_brightness_set(4,2);
 }
 
-#define CAM_DELAY_MAX       150
+#define CAM_DELAY_MAX       200
 void get_cam_para_all(void)
 {
             

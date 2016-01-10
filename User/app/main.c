@@ -43,9 +43,12 @@ void camera_power_key_pin_Init(void)
     GPIO_Init(CAMERA_POWER_PORT, &GPIOD_InitStructure);
 
 
-	GPIO_SetBits(CAMERA_POWER_PORT,CAMERA_POWER_PIN);	
+	GPIO_ResetBits(CAMERA_POWER_PORT,CAMERA_POWER_PIN);	
 	//GPIO_SetBits(GPIOC,CAMERA_POWER_PIN);	
-    
+
+
+
+	
 	GPIO_SetBits(CAMERA_SET_KEY_PORT,CAMERA_SET_KEY_PIN);	
 
 
@@ -62,7 +65,9 @@ void camera_power_key_pin_Init(void)
 	GPIO_SetBits(GPIOC,GPIO_Pin_15);
 	GPIO_SetBits(GPIOC,GPIO_Pin_13);
 
+
 	
+	//GPIO_SetBits(CAMERA_POWER_PORT,CAMERA_POWER_PIN);	
 }
 
 void camera_power_off_on(u8 mode)
@@ -494,6 +499,7 @@ void ports_initial(void)
 	GPIO_PinRemapConfig(GPIO_Remap_SWJ_JTAGDisable , ENABLE);
 	// 改变指定管脚的映射 GPIO_Remap_SWJ_JTAGDisable ，JTAG-DP 禁用 + SW-DP 使能
 
+	camera_power_key_pin_Init();
 
     //DC Motor driver ic: BA6208
 	zoom_pin_Init();
@@ -505,7 +511,6 @@ void ports_initial(void)
     motor_voltage_pin_Init();
     //iris_auto_pin_Init();
     
-	camera_power_key_pin_Init();
     
 	timer0_initial();
 
@@ -1895,11 +1900,16 @@ int main(void)
     u16 k;
 
 
-	ttlen = sizeof(Union_system_para_2);
+	ttlen = sizeof(system_para.system_para);
 	
 	InterruptConfig();
 	ports_initial();
-    delay_X1ms(60);
+    delay_X1ms(600);
+
+
+	camera_power_off_on(1);
+	
+    delay_X1ms(1200);
 
 	sys_expand_para_initial();
 	

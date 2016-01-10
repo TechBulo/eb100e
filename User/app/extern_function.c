@@ -1,6 +1,13 @@
 #include "includes.h"
 
 
+
+#define	AN41908_MOTOR_STEPS_125_PRESET		48
+#define	AN41908_MOTOR_STEPS_130_PRESET		60
+
+
+
+
 enum IRIS_CTL_MODE_TYPE iris_ctl_mode = IRIS_CAM_IRIS;
 
 
@@ -216,7 +223,7 @@ u8  save_sys_expand_para(void)
 {
     u32 addr;
 
-    addr = sizeof(system_expand_para.system_para)+EEPROM_SYSTEM_EXPAND_PARA_START_ADDRESS;
+    addr = EEPROM_SYSTEM_EXPAND_PARA_START_ADDRESS;
 
 	SPI_FLASH_BufferWrite(system_expand_para.system_para_arr,addr,sizeof(system_expand_para.system_para));
 
@@ -234,6 +241,8 @@ u8  get_sys_expand_para(void)
 	return 0;	
 }
 
+
+
 void sys_expand_para_initial(void)
 {
 	get_sys_expand_para();
@@ -247,10 +256,22 @@ void sys_expand_para_initial(void)
 	{
 		system_expand_para.system_para.para_system_para_flag1 = EEPROM_FACTORY_FLAG_VAL;
 		system_expand_para.system_para.para_system_para_flag2 = EEPROM_FACTORY_FLAG2_VAL;
-		system_expand_para.system_para.para_stepsmotor_pulse_per_step = 60;
+		system_expand_para.system_para.para_stepsmotor_pulse_per_step = AN41908_MOTOR_STEPS_125_PRESET;
 
 		save_sys_expand_para();
 	}
+
+	if(system_expand_para.system_para.para_stepsmotor_pulse_per_step == 0)
+	{
+		iris_ex_pin_set(1);	
+
+	}
+	else
+	{
+		iris_ex_pin_set(0);
+
+	}
+	
 }
 
 
@@ -746,13 +767,13 @@ void dome_func_control(uchar action,uchar prePoint)
 		if(action == 0x11)
 		{
 			iris_ex_pin_set(1);
-
+			stepmotor_para_set(0);
 		}
 		else
 		{
 			iris_ex_pin_set(0);
 
-			stepmotor_para_set(48);
+			stepmotor_para_set(AN41908_MOTOR_STEPS_125_PRESET);
 
 			
 		}
@@ -764,7 +785,7 @@ void dome_func_control(uchar action,uchar prePoint)
 		}
 		else
 		{
-			stepmotor_para_set(60);
+			stepmotor_para_set(AN41908_MOTOR_STEPS_130_PRESET);
 		}
 
 		break;
@@ -785,7 +806,7 @@ void dome_func_control(uchar action,uchar prePoint)
         }
         else
         {
-            //save_system_para(prePoint-200);
+            save_system_para(prePoint-200);
         }
     }
     
